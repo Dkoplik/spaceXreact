@@ -1,14 +1,10 @@
-import * as Geo from "./geo.json"
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { App } from './components/app';
 
-import { React } from 'react'
-import ReactDOM from 'react-dom/client'
-import { App } from "./components/app";
-
-document.addEventListener("DOMContentLoaded", setup)
-
-function setup() {
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    const element = <App />;
-    root.render(element);
-
-}
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);

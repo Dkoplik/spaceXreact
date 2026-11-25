@@ -1,30 +1,44 @@
-class SpaceX{
+import { cachedFetch } from "./cache";
 
-    constructor(baseUrl = "https://api.spacexdata.com/v4/") {
-        this.baseUrl = baseUrl;
-    }
+const BASE_URL = "https://ll.thespacedevs.com/2.3.0";
 
-    launches(){
-        return fetch(`${this.baseUrl}launches`)
-            .then(response=>response.json());
-    }
+class SpaceX {
+  constructor(baseUrl = BASE_URL) {
+    this.baseUrl = baseUrl;
+  }
 
-    launchpads(){
-        return fetch(`${this.baseUrl}launchpads`)
-            .then(response=>response.json());
-    }
+  // async _get(path) {
+  //   const res = await fetch(`${this.baseUrl}${path}`);
+  //   if (!res.ok) {
+  //     throw new Error(`LL2 request failed: ${res.status} ${res.statusText}`);
+  //   }
+  //   const data = await res.json();
+  //   return data.results ?? data;
+  // }
 
-    launchpad(id){
-        return fetch(`${this.baseUrl}launchpads/${id}`)
-            .then(response=>response.json());
-    }
+  async launchpads() {
+    const url = `${BASE_URL}/pads/?limit=100`;
+    const data = await cachedFetch(url);
+    return data.results;
+  }
 
-    starlinks(){
-        return fetch(`${this.baseUrl}starlink`)
-            .then(response=>response.json());
-    }
+  async launchpad(id) {
+    const url = `${BASE_URL}/pads/${id}`;
+    const data = await cachedFetch(url);
+    return data.results;
+  }
+
+  async launches() {
+    const url = `${BASE_URL}/launches/?lsp__name=SpaceX&limit=100`;
+    const data = await cachedFetch(url);
+    return data.results;
+  }
+
+  async launch(id) {
+    const url = `${BASE_URL}/launches/${id}`;
+    const data = await cachedFetch(url);
+    return data.results;
+  }
 }
 
-export {SpaceX}
-
-
+export { SpaceX };
